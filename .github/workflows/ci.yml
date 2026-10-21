@@ -10,8 +10,6 @@ jobs:
   api-tests:
     name: Node API tests
     runs-on: ubuntu-latest
-    env:
-      FORCE_CI_FAILURE: "false"
 
     steps:
       - uses: actions/checkout@v4
@@ -19,10 +17,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: npm
 
-      - run: npm install
-      - run: npm test
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run API tests
+        run: npm test
 
   frontend-checks:
     name: Lint, TypeScript, and Vite build
@@ -34,9 +34,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-          cache: npm
 
-      - run: npm install
+      - name: Install dependencies
+        run: npm install
 
       - name: Run ESLint
         run: npm run lint
